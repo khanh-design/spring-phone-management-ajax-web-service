@@ -46,6 +46,7 @@
                     ' <th>Model</td>\n' +
                     ' <th>Price</td>\n' +
                     ' <th>Delete</td>\n' +
+                    ' <th>Update</th>>' +
                     ' </tr>';
                 for (let i = 0; i < data.length; i++) {
                     content += getSmartphone(data[i]);
@@ -58,7 +59,8 @@
 
     function getSmartphone(smartphone) {
         return `<tr><td >${smartphone.producer}</td><td >${smartphone.model}</td><td >${smartphone.price}</td>` +
-            `<td class="btn"><button class="deleteSmartphone" onclick="deleteSmartphone(${smartphone.id})">Delete</button></td></tr>`;
+            `<td class="btn"><button class="deleteSmartphone" onclick="deleteSmartphone(${smartphone.id})">Delete</button></td>` +
+            `<td class="btn"><button class="updateSmartphone" onclick="updateSmartphone(${smartphone.id})">Update</button></td></tr>`;
     }
 
     function deleteSmartphone(id) {
@@ -68,6 +70,33 @@
             url: `http://localhost:8080/api/smartphones/${id}`,
             //xử lý khi thành công
             success: successHandler
+        });
+    }
+
+    function updateSmartphone(id) {
+        let producer = $('#producer').val();
+        let model = $('#model').val();
+        let price = $('#price').val();
+
+        let updateSmartphone = {
+            id: id,
+            producer: producer,
+            model: model,
+            price: price
+        };
+
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+           type: 'POST',
+            url: `http://localhost:8080/api/smartphones/update/${id}`,
+            data: JSON.stringify(updateSmartphone),
+            success: successHandler,
+            error: function (xhr) {
+                alert("Cập nhật thất bại: " + xhr.status);
+            }
         });
     }
 </script>
