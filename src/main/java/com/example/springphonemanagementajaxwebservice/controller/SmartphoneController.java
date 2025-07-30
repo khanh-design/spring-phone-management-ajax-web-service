@@ -1,13 +1,17 @@
 package com.example.springphonemanagementajaxwebservice.controller;
 
 import com.example.springphonemanagementajaxwebservice.model.Smartphone;
+import com.example.springphonemanagementajaxwebservice.security.SecurityConfig;
 import com.example.springphonemanagementajaxwebservice.service.impl.SmartphoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
 import java.util.Optional;
 
 
@@ -55,4 +59,16 @@ public class SmartphoneController {
         return new ResponseEntity<>(smartphoneOptional.get(), HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/index")
+    public ModelAndView index2(Principal principal) {
+        System.out.println(principal.getName());
+        return new ModelAndView("/index");
+    }
+
+    @GetMapping("/admin")
+    public ModelAndView admin() {
+        SecurityContext context = SecurityContextHolder.getContext();
+        System.out.println(context.getAuthentication().getName());
+        return new ModelAndView("/admin");
+    }
 }

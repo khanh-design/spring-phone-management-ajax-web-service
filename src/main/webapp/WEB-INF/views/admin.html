@@ -1,10 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-$END$
+<h3>
+    Welcome !
+    <div sec:authorize="isAuthenticated()">
+        <span sec:authentication="principal.username"></span>
+    </div>
+</h3>
+<h2>Welcome to admin</h2>
 </body>
 </html>
